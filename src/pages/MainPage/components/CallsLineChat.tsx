@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,7 +10,9 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import faker from 'faker';
+import { useData } from '../../../hooks/useData';
+import { DataType } from '../../../types/DataTypes';
+import _ from 'lodash';
 
 ChartJS.register(
   CategoryScale,
@@ -35,63 +37,46 @@ export const options = {
   },
 };
 
-const labels = ['16/05/2022', '17/05/2022', '18/05/2022', '19/05/2022', '20/05/2022'];
-
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Dataset 1',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      borderColor: '#ac26a9',
-      backgroundColor: '#ac26a9',
-    },
-    {
-      label: 'Dataset 2',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      borderColor: '#4ab871',
-      backgroundColor: '#4ab871',
-    },
-    {
-      label: 'Dataset 3',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      borderColor: '#f97868',
-      backgroundColor: '#f97868',
-    },
-    {
-      label: 'Dataset 4',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      borderColor: '#ec9124',
-      backgroundColor: '#ec9124',
-    },
-    {
-      label: 'Dataset 5',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      borderColor: '#67a8c5',
-      backgroundColor: '#67a8c5',
-    },
-    {
-      label: 'Dataset 6',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      borderColor: '#978d78',
-      backgroundColor: '#978d78',
-    },
-    {
-      label: 'Dataset 7',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      borderColor: '#767c91',
-      backgroundColor: '#767c91',
-    },
-    {
-      label: 'Dataset 8',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      borderColor: '#541f27',
-      backgroundColor: '#541f27',
-    },
-  ],
-};
 
 export function CallsLineChat() {
+  const dataStorage = useData()
+  const [chartData, setChartData] = useState({});
+ // const [totalCalls, setTotalCalls] = useState({});
+
+  let labels = Object.keys(chartData).map((key, index) => key)
+
+  labels = labels.reverse()
+
+  function loadData(data: DataType) {
+    const dayValues = _.groupBy(data, (value) =>  value.geral.data)
+    setChartData(dayValues)
+
+    // const totalCallsValues = Object.keys(chartData).map((key) => _.get(chartData, `${key}[0].geral.chamadas_total`))  
+
+    // setTotalCalls(totalCallsValues)
+  }
+
+  useEffect(() => {
+    const metaData = JSON.parse(localStorage.getItem('recentData')!) 
+    
+    loadData(metaData)
+    
+  }, [])
+  
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Total de Ligações',
+        data: Object.keys(chartData).map((key) => _.get(chartData, `${key}[0].geral.chamadas_total`)).reverse(),
+        borderColor: '#ac26a9',
+        backgroundColor: '#ac26a9',
+      },
+    ],
+  };
+
+
   return (
     <Line options={options} data={data} />
   )

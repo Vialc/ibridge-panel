@@ -1,9 +1,25 @@
-import { useState } from 'react'
 import { Drawler } from './components/Drawler'
 import { MainPage } from './pages/MainPage/MainPage'
 
+import { useQuery } from "react-query";
+import { useState } from "react";
+import { useApi } from './hooks/useApi';
+import { DataType } from './types/DataTypes';
+import { dividerClasses } from '@mui/material';
+
 function App() {
-  const [count, setCount] = useState(0)
+
+  // const api = useApi();
+  // const [dataState, setDataState] = useState({} as DataType);
+  // const { data, error, isLoading } = useQuery("data", api.getDataFromApi)
+
+  // if (isLoading) return <div>Loading...</div>
+
+  // if (data) {
+  //   setDataState(data)
+  //   const dataString = JSON.stringify(data)
+  //   localStorage.setItem('recentData', dataString)
+  // }
 
   return (
     <div className="App">

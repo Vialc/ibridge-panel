@@ -43,9 +43,13 @@ export interface Clients {
   [key: string]: ClientType;
 }
 
-export type DataType = {
+export type DataDayType = {
   geral: GeneralType;
-  cliente: Clients;
+  clientes: Clients;
+}
+
+export interface DataType {
+  [key: string]: DataDayType
 }
 
 export type PropsDataContext = {
