@@ -4,6 +4,12 @@
 - Criar um script para carga e armazenamento dos dados disponibilizados;
 - Criar um painel de acompanhamento apresentando os dados, com filtro por data e cliente, utilizando ReactJS.
 
+<div align="center">
+<img src="https://github.com/Vialc/ibridge-panel/blob/main/src/assets/images/readmeImage.png"  align="center">
+
+</div>
+<div></div>
+
 
 Ferramentas utilizadas:
 
