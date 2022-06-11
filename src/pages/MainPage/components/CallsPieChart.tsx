@@ -1,57 +1,23 @@
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import _ from 'lodash';
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { Pie } from 'react-chartjs-2';
-import { DataType } from '../../../types/DataTypes';
+import ClientContext from '../../../contexts/DataClient/ClientContext';
+import GeneralContext from '../../../contexts/DataGeneral/GeneralContext';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 
 
 export function CallsPieChart() {
-  let numberArrayOrigin: number[] = []
-  const [dataArray, setDataArray] = useState(numberArrayOrigin);
-
-  function loadData(data: DataType) {
-
-    const dataGrouped = _.groupBy(data, (value) => value.geral.data)
-
-    const chamadas_falha_operadora = _.map(dataGrouped, (value, key) => _.sum([_.sumBy(dataGrouped[key], (v) => v.geral.chamadas_falha_operadora)]))
-    const chamadas_telefone_incorreto = _.map(dataGrouped, (value, key) => _.sum([_.sumBy(dataGrouped[key], (v) => v.geral.chamadas_telefone_incorreto)]))
-    const chamadas_nao_atendida = _.map(dataGrouped, (value, key) => _.sum([_.sumBy(dataGrouped[key], (v) => v.geral.chamadas_nao_atendida)]))
-    const chamadas_atendimento_maquina = _.map(dataGrouped, (value, key) => _.sum([_.sumBy(dataGrouped[key], (v) => v.geral.chamadas_atendimento_maquina)]))
-    const chamadas_atendimento_humano = _.map(dataGrouped, (value, key) => _.sum([_.sumBy(dataGrouped[key], (v) => v.geral.chamadas_atendimento_humano)]))
-    const chamadas_abandono_pre_fila = _.map(dataGrouped, (value, key) => _.sum([_.sumBy(dataGrouped[key], (v) => v.geral.chamadas_abandono_pre_fila)]))
-    const chamadas_abandono_fila = _.map(dataGrouped, (value, key) => _.sum([_.sumBy(dataGrouped[key], (v) => v.geral.chamadas_abandono_fila)]))
-    const chamadas_atendimento_pa = _.map(dataGrouped, (value, key) => _.sum([_.sumBy(dataGrouped[key], (v) => v.geral.chamadas_atendimento_pa)]))
-
-    
-    setDataArray([
-      _.sum(chamadas_falha_operadora),
-      _.sum(chamadas_telefone_incorreto),
-      _.sum(chamadas_nao_atendida),
-      _.sum(chamadas_atendimento_maquina),
-      _.sum(chamadas_atendimento_humano),
-      _.sum(chamadas_abandono_pre_fila),
-      _.sum(chamadas_abandono_fila),
-      _.sum(chamadas_atendimento_pa),
-    ])
-  } 
-
-
-  useEffect(() => {
-    const metaData = JSON.parse(localStorage.getItem('recentData')!)
-
-    loadData(metaData)
-
-  }, [])
+  const general = useContext(GeneralContext)
+  const client = useContext(ClientContext)
 
    const data = {
     labels: ['Falha operadora', 'telefone incorreto', 'não atendida', 'atendimento maquina', 'atendimento humano', 'abandono pré-fila', 'abandono fila', 'atendimento PA'],
     datasets: [
       {
         label: '# of Votes',
-        data: dataArray,
+        data: client.clientCallsForPieChart.length > 0 ? client.clientCallsForPieChart : general.generalCallsForPieChart,
         backgroundColor: [
           '#ac26a9',
           '#4ab871',

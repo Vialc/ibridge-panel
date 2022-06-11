@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,9 +10,8 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { useData } from '../../../hooks/useData';
-import { DataType } from '../../../types/DataTypes';
-import _ from 'lodash';
+import GeneralContext from '../../../contexts/DataGeneral/GeneralContext';
+import ClientContext from '../../../contexts/DataClient/ClientContext';
 
 ChartJS.register(
   CategoryScale,
@@ -39,29 +38,11 @@ export const options = {
 
 
 export function CallsLineChat() {
-  const dataStorage = useData()
-  const [chartData, setChartData] = useState({});
- // const [totalCalls, setTotalCalls] = useState({});
 
-  let labels = Object.keys(chartData).map((key, index) => key)
+  const general = useContext(GeneralContext)
+  const client = useContext(ClientContext)
 
-  labels = labels.reverse()
-
-  function loadData(data: DataType) {
-    const dayValues = _.groupBy(data, (value) =>  value.geral.data)
-    setChartData(dayValues)
-
-    // const totalCallsValues = Object.keys(chartData).map((key) => _.get(chartData, `${key}[0].geral.chamadas_total`))  
-
-    // setTotalCalls(totalCallsValues)
-  }
-
-  useEffect(() => {
-    const metaData = JSON.parse(localStorage.getItem('recentData')!) 
-    
-    loadData(metaData)
-    
-  }, [])
+  let labels = general.daysList;
   
 
   const data = {
@@ -69,9 +50,15 @@ export function CallsLineChat() {
     datasets: [
       {
         label: 'Total de Ligações',
-        data: Object.keys(chartData).map((key) => _.get(chartData, `${key}[0].geral.chamadas_total`)).reverse(),
+        data: client.clientCallsForLineChart.length > 0 ? client.clientCallsForLineChart : general.generalCallsForLineChart,
         borderColor: '#ac26a9',
         backgroundColor: '#ac26a9',
+      },
+      {
+        label: 'Total de Ocorrências',
+        data: client.clientOcurrencesForLineChart.length > 0 ? client.clientOcurrencesForLineChart : general.generalOcurrencesForLineChart,
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
       },
     ],
   };

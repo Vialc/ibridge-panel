@@ -8,7 +8,9 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import faker from 'faker';
+import { useContext } from 'react';
+import GeneralContext from '../../../contexts/DataGeneral/GeneralContext';
+import ClientContext from '../../../contexts/DataClient/ClientContext';
 
 ChartJS.register(
   CategoryScale,
@@ -34,18 +36,23 @@ export const options = {
 
 const labels = ['Sem contato', 'Com contato', 'Abordagem', 'Fechamento'];
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Dataset 1',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    },
-  ],
-};
+
 
 export default function OccurrencesBarChart() {
+  const general = useContext(GeneralContext)
+  const client = useContext(ClientContext)
+  
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Dataset 1',
+        data: client.clientOcurrencesForBarChart.length > 0 ? client.clientOcurrencesForBarChart : general.generalOcurrencesForBarChart,
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+    ],
+  };
+
   return (
     <Bar options={options} data={data} />
   )
