@@ -3,4 +3,8 @@ import { useApi } from './useApi';
 
 const api = useApi();
 
-export const useData = () => useQuery(['data'], api.getDataFromApi)
+export const useData = () => {
+
+  
+  return useQuery(['data'], api.getDataFromApi)
+}

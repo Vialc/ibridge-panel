@@ -7,7 +7,7 @@ function App() {
 
   return (
     <div className="App">
-      <div className="grid h-screen grid-cols-12 grid-rows-2 gap-1">
+      <div className="grid bg-slate-200 h-screen grid-cols-12 grid-rows-2 gap-1">
         <Drawler />
         <GeneralContextProvider>
           <ClientContextProvider>

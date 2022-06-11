@@ -26,8 +26,8 @@ export function AllDataTable() {
   const client = useContext(ClientContext) 
 
   return (
-    <section className='h-80 w-full'>
-      <DataGrid rows={client.totalClientsRows} columns={columns} />
+    <section className='h-80 w-full text-gray-300'>
+      <DataGrid rows={client.totalClientsRows}  columns={columns} />
     </section>
   );
 }

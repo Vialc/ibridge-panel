@@ -43,8 +43,12 @@ export function CallsPieChart() {
     ],
   };
 
+  
+
 
   return (
-    <Pie data={data} />
+    <div className='bg-slate-50 rounded-lg'>
+    <Pie data={data}  />
+    </div>
   )
 }

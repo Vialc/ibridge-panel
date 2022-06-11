@@ -11,9 +11,6 @@ export const useApi = () => ({
     try {
       const response = await api.get("/dados.json");
 
-      // console.log("passou pela api");
-      // console.log(response);
-
       return response.data as DataType;
     } catch (error) {
       console.error(error);

@@ -1,8 +1,6 @@
 import { useState } from "react";
-import { useApi } from "../../hooks/useApi";
 import DataContext from "./DataContext";
 
-import { useQuery } from "react-query";
 import { useData } from "../../hooks/useData";
 
 const DataContextProvider = ({ children }: { children: JSX.Element }) => { 
@@ -12,9 +10,6 @@ const DataContextProvider = ({ children }: { children: JSX.Element }) => {
     const [dataState, setDataState] = useState(localData);
   
 
-  
-
-  const api = useApi();
   const { data, error, isLoading } = useData()
 
   if (isLoading) return <div>Loading...</div>
@@ -22,6 +17,7 @@ const DataContextProvider = ({ children }: { children: JSX.Element }) => {
   if (data) {
     const dataString = JSON.stringify(data)
     localStorage.setItem('recentData', dataString)
+
   }
 
 

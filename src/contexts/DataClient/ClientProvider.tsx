@@ -87,12 +87,6 @@ const ClientContextProvider = ({ children }: { children: JSX.Element }) => {
     setSomaOcorrenciasAbordagem(soma_ocorrencias_abordagem)
     setSomaOcorrenciasFechamento(soma_ocorrencias_fechamento)
   
-    
-    
-  
-    console.log(dataGrouped)  
-    console.log('Clientes agrupados: ') 
-    console.log(clientCallsForLineChart) 
 
 
     const finalRows: ClientRowType[] =[]
@@ -167,6 +161,7 @@ const ClientContextProvider = ({ children }: { children: JSX.Element }) => {
     setClientOcurrencesForBarChart([])
     setClientCallsForPieChart([])
     setClientCallsForLineChart([])
+    setClientOcurrencesForLineChart([])
    }
    
    setTotalClientsRows(finalRows)
