@@ -1,10 +1,11 @@
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import PhoneCallbackIcon from '@mui/icons-material/PhoneCallback';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export function Drawler() {
   const [openMenu, setOpenMenu] = useState(false)
@@ -19,8 +20,8 @@ export function Drawler() {
           <MenuIcon />
         </div>
         <ul className="flex items-center flex-col w-full justify-center mb-28 gap-9">
-          <li><a href="#"><DashboardIcon />{openMenu ? 'Principal' : ''}</a></li>
-          <li><a href="#"><AccountBoxIcon />{openMenu ? 'Clientes' : ''}</a></li>
+          <li><Link to="/"><DashboardIcon />{openMenu ? 'Principal' : ''}</Link></li>
+          <li><Link to="/tree"><AccountTreeIcon />{openMenu ? 'Clientes' : ''}</Link></li>
           <li><a href="#"><PhoneCallbackIcon />{openMenu ? 'Chamadas' : ''}</a></li>
           <li><a href="#"><CreateNewFolderIcon />{openMenu ? 'Ocorrências' : ''}</a></li>
           <li><a href="#"><LogoutIcon />{openMenu ? 'Sair' : ''}</a></li>
